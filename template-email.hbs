@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Newman Report</title>
+</head>
+
+<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">
+    <div>
+        <h1 style="font-weight: 500; font-size: 24px;">Newman Report</h1>
+        <div>
+            {{#with summary}}
+                <div style="width: 25%; float: left;">Collection</div>
+                <div style="width: 75%; float: left;">{{collection.name}}</div>
+                {{#if collection.description}}
+                    <div style="width: 25%; float: left;">Description</div>
+                    <div style="width: 75%; float: left;">{{collection.description}}&nbsp;</div>
+                {{/if}}
+            {{/with}}
+            <div style="width: 25%; float: left;">Time</div>
+            <div style="width: 75%; float: left;">{{timestamp}}</div>
+            <div style="width: 25%; float: left;">Exported with</div>
+            <div style="width: 75%; float: left;">Newman v{{version}}</div>
+            <div style="width: 100%;">&nbsp;</div>
+            <div style="width: 25%; float: left;">&nbsp;</div>
+            <div style="width: 75%; float: left;"><strong>Failed / Total</strong></div>
+
+            {{#with summary}}
+                {{#with stats}}
+                    <div style="width: 25%; float: left;">Iterations</div>
+                    <div style="width: 75%; float: left;">{{iterations.failed}} / {{iterations.total}}</div>
+                    <div style="width: 25%; float: left;">Requests</div>
+                    <div style="width: 75%; float: left;">{{requests.failed}} / {{requests.total}}</div>
+                    <div style="width: 25%; float: left;">Prerequest Scripts</div>
+                    <div style="width: 75%; float: left;">{{prerequestScripts.failed}} / {{prerequestScripts.total}}</div>
+                    <div style="width: 25%; float: left;">Test Scripts</div>
+                    <div style="width: 75%; float: left;">{{testScripts.failed}} / {{testScripts.total}}</div>
+                    <div style="width: 25%; float: left;">Assertions</div>
+                    <div style="width: 75%; float: left;">{{assertions.failed}} / {{assertions.total}}</div>
+                {{/with}}
+
+                <div style="width: 100%;">&nbsp;</div>
+                <div style="width: 25%; float: left;">Total run duration</div>
+                <div style="width: 75%; float: left;">{{duration}}</div>
+                <div style="width: 25%; float: left;">Total data received</div>
+                <div style="width: 75%; float: left;">{{responseTotal}} (approx)</div>
+                <div style="width: 25%; float: left;">Average response time</div>
+                <div style="width: 75%; float: left;">{{responseAverage}}</div>
+
+                <div style="width: 100%;">&nbsp;</div>
+                <div style="width: 25%; float: left;"><strong>Total Failures</strong></div>
+                <div style="width: 75%; float: left;"><strong>{{failures.length}}</strong></div>
+            {{/with}}
+        </div>
+
+        {{#if summary.failures.length}}
+            <br />
+            <div style="width: 100%;">&nbsp;</div>
+            <h2 style="font-weight: 500; font-size: 20px;">Failures</h2>
+
+            {{#each summary.failures}}
+            <div>
+                <h3 style="font-weight: 500; font-size: 18px;">{{error.name}}: {{#if error.test}}{{error.test}}{{else}}{{error.message}}{{/if}}</h3>
+
+                <div>
+                    <div>
+                        {{#if error.test}}
+                            <div style="width: 25%; float: left;">Description</div>
+                            <div style="width: 75%; float: left;">{{error.message}}</div><br />
+                        {{/if}}
+
+                        <div style="width: 25%; float: left;">Location</div>
+                        <div style="width: 75%; float: left;">{{at}}</div><br />
+                        <div style="width: 25%; float: left;">Request</div>
+                        <div style="width: 75%; float: left;">{{source.name}}</div>
+                        {{#gt cursor.cycles 1}}
+                        <div style="width: 25%; float: left;">Iteration</div>
+                        <div style="width: 75%; float: left;">{{add cursor.iteration 1}}</div><br />
+                        {{/gt}}
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100%;">&nbsp;</div>
+            {{/each}}
+        {{/if}}
+
+        <div style="width: 100%;">Please refer to the attachment for more details.</div>
+    </div>
+</body>
+
+</html>
